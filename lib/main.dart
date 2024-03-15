@@ -1,13 +1,27 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:routine_realm/database/habit_database.dart';
 import 'package:routine_realm/pages/home_page.dart';
 import 'package:routine_realm/theme/light_mode.dart';
 import 'package:routine_realm/theme/theme_provider.dart';
 
-void main() {
-  ChangeNotifierProvider(create: (context)=>ThemeProvider(),
-  child: const MyApp(),);
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  //initialize database
+
+
+  await HabitDatabase.initialize();
+  await HabitDatabase().saveFirstLaunchDate();
+
+
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +34,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
       theme: Provider.of<ThemeProvider>(context).themeData,
-
     );
   }
 }
-
