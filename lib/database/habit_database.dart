@@ -16,28 +16,24 @@ class HabitDatabase extends ChangeNotifier {
   static Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();
     isar =
-        await Isar.open([HabitSchema, AppSettingsSchema], directory: dir.path);
+    await Isar.open([HabitSchema, AppSettingsSchema], directory: dir.path);
   }
 
 //Save first Date of Starting of App (for heatmap)
   Future<void> saveFirstLaunchDate() async {
     final existingettings = await isar.appSettings.where().findFirst();
     if (existingettings == null) {
-      final settings = AppSettings()..firstLaunchDate = DateTime.now();
+      final settings = AppSettings()
+        ..firstLaunchDate = DateTime.now();
       await isar.writeTxn(() => isar.appSettings.put(settings));
     }
   }
 
 //Get first date of app startup (for heatmap)
-Future<DateTime?>getFirstLaunchDate() async {
-
-
-
-    final settings=await isar.appSettings.where().findFirst();
+  Future<DateTime?> getFirstLaunchDate() async {
+    final settings = await isar.appSettings.where().findFirst();
     return settings?.firstLaunchDate;
-}
-
-
+  }
 
 /*
 
@@ -47,11 +43,57 @@ CRUD x OPERATIONS
 
 //List of Habits
 
+  final List<Habit> currentHabits = [];
+
 //CREATE - add a new habit
+  Future<void> addHabit(String habitName) async {
+    //create a new habit
+    final newHabit = Habit()
+      ..name = habitName;
+
+    //save to db
+    await isar.writeTxn(() => isar.habits.put(newHabit));
+
+    //read from db
+    readHabits();
+  }
 
 //READ - read saved habit from db
+  Future<void> readHabits() async {
+    //Fetch All Habits From db
+    List<Habit> fetchHabits = await isar.habits.where().findAll();
+
+    //give to current habits
+    currentHabits.clear();
+    currentHabits.addAll(fetchHabits);
+
+    //update UI
+    notifyListeners();
+  }
 
 //UPDATE - check habit on  and off
+  Future<void> updateHabitCompletion(int id, bool isCompleted) async {
+    //find specific habit
+    final habit = await isar.habits.get(id);
+
+    //update completion status
+
+    if (habit != null) {
+      await isar.writeTxn(() async {
+        //if habit is completed  -> add the current date to completedDays
+        if () {
+
+
+        }
+        //if habit not completed ->remove date from the list
+
+        else {
+
+        }
+      });
+    }
+    //re-read from db
+  }
 
 //UPDATE - edit habit name
 
