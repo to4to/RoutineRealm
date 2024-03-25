@@ -81,7 +81,7 @@ CRUD x OPERATIONS
     if (habit != null) {
       await isar.writeTxn(() async {
         //if habit is completed  -> add the current date to completedDays
-        if () {
+        if (isCompleted && !habit.completedDays.contains(DateTime.now())) {
 
 
         }
