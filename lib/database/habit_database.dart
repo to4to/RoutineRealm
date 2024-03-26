@@ -98,9 +98,15 @@ CRUD x OPERATIONS
         //if habit not completed ->remove date from the list
 
         else {
-
+//remove the current date if habit is not marked as not complete
+        habit.completedDays.removeWhere((date) => date.year==DateTime.now().year &&date.year==DateTime.now().year&&date.year==DateTime.now().year)
         }
       });
+
+
+
+
+
     }
     //re-read from db
   }
