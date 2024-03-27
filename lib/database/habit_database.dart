@@ -83,30 +83,31 @@ CRUD x OPERATIONS
         //if habit is completed  -> add the current date to completedDays
         if (isCompleted && !habit.completedDays.contains(DateTime.now())) {
 //today
-        final today=DateTime.now();
+          final today = DateTime.now();
 
-        //add the current date if it's not already in the list
-        habit.completedDays.add(
-          DateTime(
-            today.year,
-            today.month,
-            today.day
-          )
-        );
-
+          //add the current date if it's not already in the list
+          habit.completedDays.add(
+              DateTime(
+                  today.year,
+                  today.month,
+                  today.day
+              )
+          );
         }
         //if habit not completed ->remove date from the list
 
         else {
 //remove the current date if habit is not marked as not complete
-        habit.completedDays.removeWhere((date) => date.year==DateTime.now().year &&date.year==DateTime.now().year&&date.year==DateTime.now().year)
+          habit.completedDays.removeWhere((date) =>
+          date.year == DateTime
+              .now()
+              .year && date.month == DateTime
+              .now().month
+               && date.day == DateTime
+              .now()
+              .day);
         }
       });
-
-
-
-
-
     }
     //re-read from db
   }
