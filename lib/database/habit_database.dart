@@ -107,6 +107,9 @@ CRUD x OPERATIONS
               .now()
               .day);
         }
+        //save the updated habit back to db
+
+        await isar.habits.put(habit);
       });
     }
     //re-read from db
