@@ -118,5 +118,8 @@ CRUD x OPERATIONS
 
 //UPDATE - edit habit name
 
+
+Future<void> updateHabitName(){}
+
 //DELETE - delete habit
 }
