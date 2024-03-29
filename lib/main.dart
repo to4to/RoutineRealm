@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routine_realm/database/habit_database.dart';
 import 'package:routine_realm/pages/home_page.dart';
-import 'package:routine_realm/theme/light_mode.dart';
 import 'package:routine_realm/theme/theme_provider.dart';
 
 void main() async{

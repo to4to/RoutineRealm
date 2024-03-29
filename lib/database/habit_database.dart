@@ -113,6 +113,7 @@ CRUD x OPERATIONS
       });
     }
     //re-read from db
+    readHabits();
   }
 
 //UPDATE - edit habit name
