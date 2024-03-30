@@ -119,7 +119,7 @@ CRUD x OPERATIONS
 //UPDATE - edit habit name
 
 
-Future<void> updateHabitName(){}
+Future<void> updateHabitName(int id, String newName)async{}
 
 //DELETE - delete habit
 }
