@@ -16,15 +16,14 @@ class HabitDatabase extends ChangeNotifier {
   static Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();
     isar =
-    await Isar.open([HabitSchema, AppSettingsSchema], directory: dir.path);
+        await Isar.open([HabitSchema, AppSettingsSchema], directory: dir.path);
   }
 
 //Save first Date of Starting of App (for heatmap)
   Future<void> saveFirstLaunchDate() async {
     final existingettings = await isar.appSettings.where().findFirst();
     if (existingettings == null) {
-      final settings = AppSettings()
-        ..firstLaunchDate = DateTime.now();
+      final settings = AppSettings()..firstLaunchDate = DateTime.now();
       await isar.writeTxn(() => isar.appSettings.put(settings));
     }
   }
@@ -48,8 +47,7 @@ CRUD x OPERATIONS
 //CREATE - add a new habit
   Future<void> addHabit(String habitName) async {
     //create a new habit
-    final newHabit = Habit()
-      ..name = habitName;
+    final newHabit = Habit()..name = habitName;
 
     //save to db
     await isar.writeTxn(() => isar.habits.put(newHabit));
@@ -86,26 +84,16 @@ CRUD x OPERATIONS
           final today = DateTime.now();
 
           //add the current date if it's not already in the list
-          habit.completedDays.add(
-              DateTime(
-                  today.year,
-                  today.month,
-                  today.day
-              )
-          );
+          habit.completedDays.add(DateTime(today.year, today.month, today.day));
         }
         //if habit not completed ->remove date from the list
 
         else {
 //remove the current date if habit is not marked as not complete
           habit.completedDays.removeWhere((date) =>
-          date.year == DateTime
-              .now()
-              .year && date.month == DateTime
-              .now().month
-               && date.day == DateTime
-              .now()
-              .day);
+              date.year == DateTime.now().year &&
+              date.month == DateTime.now().month &&
+              date.day == DateTime.now().day);
         }
         //save the updated habit back to db
 
@@ -118,8 +106,27 @@ CRUD x OPERATIONS
 
 //UPDATE - edit habit name
 
+  Future<void> updateHabitName(int id, String newName) async {
+    //find the specific habit
+    final habit = await isar.habits.get(id);
 
-Future<void> updateHabitName(int id, String newName)async{}
+    //update name
+
+    if (habit != null) {
+      //update name
+      await isar.writeTxn(() async {
+        habit.name = newName;
+
+        //save updated habit back to db
+
+        await isar.habits.put(habit);
+      });
+    }
+
+    //re -read from db
+
+    readHabits();
+  }
 
 //DELETE - delete habit
 }
